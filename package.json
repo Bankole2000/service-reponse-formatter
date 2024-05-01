@@ -1,10 +1,16 @@
 {
-  "name": "service-response",
-  "version": "0.0.2",
+  "name": "@neoncoder/service-response",
+  "version": "0.0.3",
   "description": "",
-  "main": "index.js",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "files": [
+    "build/**/*"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf ./build/*",
+    "build": "npm run clean && tsc",
     "lint": "eslint \"**/*.ts\"",
     "lint:fix": "eslint --fix \"packages/backend/**/*.ts\"",
     "release": "standard-version",
