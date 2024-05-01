@@ -25,4 +25,3 @@ exports.UnProcessableEntity = UnProcessableEntity;
 exports.UnSupportedMediaType = UnSupportedMediaType;
 exports.Unauthorized = Unauthorized;
 exports.GatewayTimeout = GatewayTimeout;
-console.table({ name: '@neoncoder/service-response-formatter', version: "0.0.2", github: 'https://github.com/Bankole2000/service-reponse-formatter.git' });

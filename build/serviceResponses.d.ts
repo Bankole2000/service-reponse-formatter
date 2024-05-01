@@ -46,8 +46,8 @@ interface IDataAccess {
 declare const httpStatus: {
     [key in StatusType]: TStatus;
 };
-type ResponseFormatter = (ResponseData: TResponseData) => ServiceResponse;
+type TResponseFormatter = (ResponseData: TResponseData) => ServiceResponse;
 declare let Rez: {
-    [key in StatusType | string]: ResponseFormatter;
+    [key in StatusType | string]: TResponseFormatter;
 };
-export { Rez, httpStatus as statuses, StatusType, TStatusType, TFuncResult, TStatus, TResponseData, IDataAccess };
+export { Rez, httpStatus as statuses, StatusType, TStatusType, TFuncResult, TStatus, TResponseData, IDataAccess, TResponseFormatter };

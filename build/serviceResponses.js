@@ -29,7 +29,7 @@ const httpStatus = {
     [StatusType.BadRequest]: { code: 400, message: 'Bad Request', fix: 'Please check your inputs and try again' },
     [StatusType.Unauthorized]: { code: 401, message: 'Unauthorized', fix: 'You need to be logged in' },
     [StatusType.Forbidden]: { code: 403, message: 'Forbidden', fix: 'You are not authorized to do this' },
-    [StatusType.NotFound]: { code: 404, message: 'Not Found', fix: 'Please confirm the resource exists' },
+    [StatusType.NotFound]: { code: 404, message: 'Not Found', fix: 'Please ensure the route or resource exists' },
     [StatusType.TimeoutError]: { code: 408, message: 'Request Timeout', fix: 'Please check your internet connection' },
     [StatusType.TooManyRequests]: { code: 429, message: 'Too many requests', fix: 'Please try again after some time' },
     [StatusType.MethodNotAllowed]: { code: 405, message: 'Method Not Allowed' },
@@ -41,7 +41,6 @@ const httpStatus = {
     [StatusType.GatewayTimeout]: { code: 504, message: 'Gateway Timeout', fix: 'Please try again or contact support' }
 };
 exports.statuses = httpStatus;
-// type TServiceResponse = Record<TStatusType, ResponseFormatter>
 let Rez = {};
 exports.Rez = Rez;
 Object.keys(StatusType).forEach(stat => {
