@@ -52,7 +52,7 @@ const httpStatus: { [key in StatusType]: TStatus } = {
   [StatusType.BadRequest]: { code: 400, message: 'Bad Request', fix: 'Please check your inputs and try again' },
   [StatusType.Unauthorized]: { code: 401, message: 'Unauthorized', fix: 'You need to be logged in' },
   [StatusType.Forbidden]: { code: 403, message: 'Forbidden', fix: 'You are not authorized to do this' },
-  [StatusType.NotFound]: { code: 404, message: 'Not Found', fix: 'Please confirm the resource exists' },
+  [StatusType.NotFound]: { code: 404, message: 'Not Found', fix: 'Please ensure the route or resource exists' },
   [StatusType.TimeoutError]: { code: 408, message: 'Request Timeout', fix: 'Please check your internet connection' },
   [StatusType.TooManyRequests]: { code: 429, message: 'Too many requests', fix: 'Please try again after some time' },
   [StatusType.MethodNotAllowed]: { code: 405, message: 'Method Not Allowed' },
@@ -64,16 +64,14 @@ const httpStatus: { [key in StatusType]: TStatus } = {
   [StatusType.GatewayTimeout]: {code: 504, message: 'Gateway Timeout', fix: 'Please try again or contact support'}
 }
 
-type ResponseFormatter = (ResponseData: TResponseData) => ServiceResponse
+type TResponseFormatter = (ResponseData: TResponseData) => ServiceResponse
 
-// type TServiceResponse = Record<TStatusType, ResponseFormatter>
-
-let Rez: {[key in StatusType | string]: ResponseFormatter} = {}
+let Rez: {[key in StatusType | string]: TResponseFormatter} = {}
 
 Object.keys(StatusType).forEach(stat => {
   const status = StatusType[stat as TStatusType]
   
-  let statusFormat: ResponseFormatter;
+  let statusFormat: TResponseFormatter;
   statusFormat = ({
     message = httpStatus[status].message,
     data = httpStatus[status].code < 300 ? {} : null,
@@ -89,4 +87,4 @@ Object.keys(StatusType).forEach(stat => {
   Rez[StatusType[status as TStatusType]] = statusFormat
 });
 
-export { Rez, httpStatus as statuses, StatusType, TStatusType, TFuncResult, TStatus, TResponseData, IDataAccess }
+export { Rez, httpStatus as statuses, StatusType, TStatusType, TFuncResult, TStatus, TResponseData, IDataAccess, TResponseFormatter }
