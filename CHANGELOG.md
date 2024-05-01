@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.7](https://github.com/Bankole2000/service-reponse-formatter/compare/v0.0.6...v0.0.7) (2024-05-01)
+
+
+### 🐛 Bug Fixes
+
+* export new gateway reponse format ([b319596](https://github.com/Bankole2000/service-reponse-formatter/commit/b319596f003dfbc63bd5fc1719e7825786ec693b))
+
 ### [0.0.6](https://github.com/Bankole2000/service-reponse-formatter/compare/v0.0.5...v0.0.6) (2024-05-01)
 
 
