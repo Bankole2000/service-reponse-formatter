@@ -15,7 +15,8 @@ enum StatusType {
   InternalServerError = 'InternalServerError',
   UnProcessableEntity = 'UnProcessableEntity',
   UnSupportedMediaType = 'UnSupportedMediaType',
-  ServiceUnavailable = 'ServiceUnavailable'
+  ServiceUnavailable = 'ServiceUnavailable',
+  GatewayTimeout = 'GatewayTimeout'
 }
 
 type TResponseData = {
@@ -59,7 +60,8 @@ const httpStatus: { [key in StatusType]: TStatus } = {
   [StatusType.InternalServerError]: { code: 500, message: 'Internal Server Error', fix: 'Please contact support' },
   [StatusType.UnProcessableEntity]: { code: 422, message: 'Unprocessable Entity', fix: 'Please contact support' },
   [StatusType.UnSupportedMediaType]: { code: 415, message: 'Unsupported Media Type', fix: 'Please check the file / media type' },
-  [StatusType.ServiceUnavailable]: { code: 503, message: 'Service Unavailable', fix: 'Please try again later' }
+  [StatusType.ServiceUnavailable]: { code: 503, message: 'Service Unavailable', fix: 'Please try again later' },
+  [StatusType.GatewayTimeout]: {code: 504, message: 'Gateway Timeout', fix: 'Please try again or contact support'}
 }
 
 type ResponseFormatter = (ResponseData: TResponseData) => ServiceResponse

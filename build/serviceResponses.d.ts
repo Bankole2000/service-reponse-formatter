@@ -14,7 +14,8 @@ declare enum StatusType {
     InternalServerError = "InternalServerError",
     UnProcessableEntity = "UnProcessableEntity",
     UnSupportedMediaType = "UnSupportedMediaType",
-    ServiceUnavailable = "ServiceUnavailable"
+    ServiceUnavailable = "ServiceUnavailable",
+    GatewayTimeout = "GatewayTimeout"
 }
 type TResponseData = {
     message?: string | undefined;

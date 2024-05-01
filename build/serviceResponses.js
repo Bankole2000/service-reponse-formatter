@@ -19,6 +19,7 @@ var StatusType;
     StatusType["UnProcessableEntity"] = "UnProcessableEntity";
     StatusType["UnSupportedMediaType"] = "UnSupportedMediaType";
     StatusType["ServiceUnavailable"] = "ServiceUnavailable";
+    StatusType["GatewayTimeout"] = "GatewayTimeout";
 })(StatusType || (exports.StatusType = StatusType = {}));
 const statusCodes = [200, 201, 204, 400, 401, 403, 404, 408, 429, 405, 417, 500, 422, 415, 503];
 const httpStatus = {
@@ -36,7 +37,8 @@ const httpStatus = {
     [StatusType.InternalServerError]: { code: 500, message: 'Internal Server Error', fix: 'Please contact support' },
     [StatusType.UnProcessableEntity]: { code: 422, message: 'Unprocessable Entity', fix: 'Please contact support' },
     [StatusType.UnSupportedMediaType]: { code: 415, message: 'Unsupported Media Type', fix: 'Please check the file / media type' },
-    [StatusType.ServiceUnavailable]: { code: 503, message: 'Service Unavailable', fix: 'Please try again later' }
+    [StatusType.ServiceUnavailable]: { code: 503, message: 'Service Unavailable', fix: 'Please try again later' },
+    [StatusType.GatewayTimeout]: { code: 504, message: 'Gateway Timeout', fix: 'Please try again or contact support' }
 };
 exports.statuses = httpStatus;
 // type TServiceResponse = Record<TStatusType, ResponseFormatter>
