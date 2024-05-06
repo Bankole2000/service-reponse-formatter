@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.11](https://github.com/Bankole2000/service-reponse-formatter/compare/v0.0.10...v0.0.11) (2024-05-06)
+
+
+### 🚚 Chores
+
+* updating readme wip ([2302f19](https://github.com/Bankole2000/service-reponse-formatter/commit/2302f19ac419df3700c19a61a0c651cf8cde629e))
+
+
+### 📝 Documentation
+
+* updated readme with examples ([19bacae](https://github.com/Bankole2000/service-reponse-formatter/commit/19bacae1b74b255c6d16cf95a5781f06121d831d))
+
 ### [0.0.10](https://github.com/Bankole2000/service-reponse-formatter/compare/v0.0.9...v0.0.10) (2024-05-01)
 
 
