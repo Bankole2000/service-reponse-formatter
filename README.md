@@ -119,11 +119,13 @@ type TStatus = {
 
 ## Usage
 
-Example with Express + Typescript
+### Generating `ServiceResponse`
+
+- Import and invoke the generator function (e.g. `OK`, `NotFound`, `Created`, `Unauthorized` etc) passing in none or any of the `ServiceResponse` type options (i.e. `{message, success, data, fix, meta, error, errMessage, newAccessToken}`);
 
 ```ts
 import express, { Request, Response } from 'express';
-import { OK, NotFound, ServiceResponse } from '@neoncoder/service-response'
+import { OK, NotFound, Unauthorized, ServiceResponse } from '@neoncoder/service-response'
 
 const app = express();
 
@@ -139,128 +141,126 @@ app.get('/not-found', async (req: Request, res: Response) => {
   const sr: ServiceReponse = NotFound({message: 'This route does not exist'})
   res.status(sr.statusCode).send(sr)
 })
+
+// generate Unauthorized - 401 response
+app.get('/unauthorized', async (req: Request, res: Response) => {
+  if(!checkUserAuth()){
+    const sr: ServiceReponse = Unauthorized({})
+    return res.status(sr.statusCode).send(sr)
+  }
+  next()
+})
 ```
 
-| Status Code | Status Type |
-| ------------|--------------
-| 200 | `OK`
-| 201 | `Created`
-| 204 | `NoContent`
-| 400 | `BadRequest`
-| 401 | `Unauthorized`
-| 403 | `Forbidden`
-| 404 | `NotFound`
-| 405 | `MethodNotAllowed`
-| 408 | `TimeoutError`
-| 415 | `UnsupportedMediaType`
-| 417 | `ExpectationFailed`
-| 422 | `UnprocessableEntity`
-| 429 | `TooManyRequests`
-| 500 | `InternalServerError`
-| 503 | `ServiceUnavailable`
-| 504 | `GatewayTimeout`
+- Or Use the `Rez` object and call the functions from there
+  
+```ts
+import express, { Request, Response } from 'express';
+import { Rez, ServiceResponse } from '@neoncoder/service-response'
 
-<!-- ABOUT THE PROJECT -->
-## About The Project
+const app = express();
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+// generate OK - 200 response
+app.get('/endpoint', async (req: Request, res: Response) => {
+  const someData = await getSomeData()
+  const sr: ServiceReponse = Rez.OK({data: someData})
+  res.status(sr.statusCode).send(sr)
+})
 
-There are many great README templates available on GitHub, however, I didn't find one that really suit my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+// generate NotFound - 404 response
+app.get('/not-found', async (req: Request, res: Response) => {
+  const sr: ServiceReponse = Rez.NotFound({fix: 'check the route exists'})
+  res.status(sr.statusCode).send(sr)
+})
+```
 
-Here's why:
+### Generating `TStatus`
 
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should element DRY principles to the rest of your life :smile:
+- The `statusMap.get(<statusCode>)` method returns a function that takes in an options object as parameter (i.e.`{message, fix, error, data}`) to return a `TStatus` object;
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have have contributed to expanding this template!
+```ts
+import express, { Request, Response } from 'express';
+import { PrismaClient } from '@prisma/client'
+import { statusMap, TStatus, Rez } from '@neoncoder/service-response'
 
-A list of commonly used resources that I find helpful are listed in the acknowledgements.
+const prisma = new PrismaClient()
+const app = express();
 
-### Built With
+app.get('/user/:id', async (req: Request, res: Response) => {
+  let result: TStatus;
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: req.params.id
+      }
+    })
+    // if user is found return 200 with user data, else return 404
+    result = user 
+      ? statusMap.get(200)!({data: user}) 
+      : statusMap.get(404)!({})
+  } catch (error: any) {
+    result = statusMap.get(500)!({error})
+  }
+  // Quickly generate a ServiceResponse from the TStatus object / result
+  const sr: ServiceResponse = Rez[result.statusType]({...result})
+  return res.status(sr.statusCode).send(sr)
+})
+```
 
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+- The `statuses` object contains a predefined list of TStatus Objects that can be referenced by the Status Type. Using the previous example with the `statuses` object becomes:
 
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
-* [Laravel](https://laravel.com)
+```ts
+import express, { Request, Response } from 'express';
+import { PrismaClient } from '@prisma/client'
+import { statuses, TStatus, Rez } from '@neoncoder/service-response'
 
-<!-- GETTING STARTED -->
-## Getting Started
+const prisma = new PrismaClient()
+const app = express();
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+app.get('/user/:id', async (req: Request, res: Response) => {
+  let result: TStatus;
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: req.params.id
+      }
+    })
+    // if user is found return 200 with user data, else return 404
+    result = user 
+      ? {...statuses.OK, data: user}
+      : {...statuses.NotFound}
+  } catch (error: any) {
+    result = {...statuses.InternalServerError, error}
+  }
+  // Quickly generate a ServiceResponse from the TStatus object / result
+  const sr: ServiceResponse = Rez[result.statusType]({...result})
+  return res.status(sr.statusCode).send(sr)
+})
+```
 
-### Prerequisites
+## List of Status Codes, Types & Generator Fxns
 
-This is an example of how to list things you need to use the software and how to install them.
+| Status Code | StatusType | Generate `ServiceResponse` | Generate `TStatus`
+| ------------|--------------| -------------------------| ---------
+| 200 | `OK` | `OK({})` \|\| `Rez.OK({})` | `statusMap.get(200)!({})`
+| 201 | `Created` | `Created({})` \|\| `Rez.Created({})` | `statusMap.get(201)!({})`
+| 204 | `NoContent` | `NoContent({})` \|\| `Rez.NoContent({})` | `statusMap.get(204)!({})`
+| 400 | `BadRequest` | `BadRequest({})` \|\| `Rez.BadRequest({})` | `statusMap.get(400)!({})`
+| 401 | `Unauthorized` | `Unauthorized({})` \|\| `Rez.Unauthorized({})` | `statusMap.get(401)!({})`
+| 403 | `Forbidden` | `Forbidden({})` \|\| `Rez.Forbidden({})` | `statusMap.get(403)!({})`
+| 404 | `NotFound` | `NotFound({})` \|\| `Rez.NotFound({})` | `statusMap.get(404)!({})`
+| 405 | `MethodNotAllowed` | `MethodNotAllowed({})` \|\| `Rez.MethodNotAllowed({})` | `statusMap.get(405)!({})`
+| 408 | `TimeoutError` | `TimeoutError({})` \|\| `Rez.TimeoutError({})` | `statusMap.get(408)!({})`
+| 415 | `UnsupportedMediaType` | `UnsupportedMediaType({})` \|\| `Rez.UnsupportedMediaType({})` | `statusMap.get(415)!({})`
+| 417 | `ExpectationFailed` | `ExpectationFailed({})` \|\| `Rez.ExpectationFailed({})` | `statusMap.get(417)!({})`
+| 422 | `UnprocessableEntity` | `UnprocessableEntity({})` \|\| `Rez.UnprocessableEntity({})` | `statusMap.get(422)!({})`
+| 429 | `TooManyRequests` | `TooManyRequests({})` \|\| `Rez.TooManyRequests({})` | `statusMap.get(429)!({})`
+| 500 | `InternalServerError` | `InternalServerError({})` \|\| `Rez.InternalServerError({})` | `statusMap.get(500)!({})`
+| 503 | `ServiceUnavailable` | `ServiceUnavailable({})` \|\| `Rez.ServiceUnavailable({})` | `statusMap.get(503)!({})`
+| 504 | `GatewayTimeout` | `GatewayTimeout({})` \|\| `Rez.GatewayTimeout({})` | `statusMap.get(504)!({})`
 
-* npm
 
-  ```sh
-  npm install npm@latest -g
-  ```
-
-### Installation
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-
-3. Install NPM packages
-
-   ```sh
-   npm install
-   ```
-
-4. Enter your API in `config.js`
-
-   ```JS
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<!-- ROADMAP -->
-## Roadmap
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues).
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are __greatly appreciated__.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@your_twitter](https://twitter.com/your_username) - <email@example.com>
-
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
-
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
+<!-- * [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
 * [Img Shields](https://shields.io)
 * [Choose an Open Source License](https://choosealicense.com)
 * [GitHub Pages](https://pages.github.com)
@@ -270,8 +270,8 @@ Project Link: [https://github.com/your_username/repo_name](https://github.com/yo
 * [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
 * [Sticky Kit](http://leafo.net/sticky-kit)
 * [JVectorMap](http://jvectormap.com)
-* [Font Awesome](https://fontawesome.com)
+* [Font Awesome](https://fontawesome.com) -->
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[product-screenshot]: https://raw.githubusercontent.com/othneildrew/Best-README-Template/master/images/screenshot.png
+<!-- [product-screenshot]: https://raw.githubusercontent.com/othneildrew/Best-README-Template/master/images/screenshot.png -->
