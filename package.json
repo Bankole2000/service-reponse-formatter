@@ -19,7 +19,17 @@
     "release:major": "standard-version --release-as major",
     "prepare": "husky"
   },
-  "keywords": [],
+  "keywords": [
+    "http",
+    "response",
+    "standard",
+    "utils",
+    "utility",
+    "functions",
+    "format",
+    "server",
+    "helper"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {

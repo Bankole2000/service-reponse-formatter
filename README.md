@@ -39,15 +39,16 @@ A Collection of utility functions to quickly scaffold and standardize server-sid
       <a href="#installation">Installation</a>
     </li>
     <li>
-      <a href="#installation">Usage</a>
-    </li>
-    <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#Usage">Usage</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#generating-serviceresponse">Generating `ServiceResponse`</a></li>
+        <li><a href="#generating-tstatus">Generating `TStatus`</a></li>
       </ul>
     </li>
     <li>
+      <a href="#list-of-status-codes-types--generator-fxns">Status Codes List</a>
+    </li>
+    <!-- <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
@@ -59,7 +60,7 @@ A Collection of utility functions to quickly scaffold and standardize server-sid
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li> -->
   </ul>
 </details>
 
