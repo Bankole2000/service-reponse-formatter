@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.13](https://github.com/Bankole2000/service-reponse-formatter/compare/v0.0.12...v0.0.13) (2024-05-07)
+
+
+### 📝 Documentation
+
+* added idataaccess example to readme ([fe565dc](https://github.com/Bankole2000/service-reponse-formatter/commit/fe565dc45f409019f1d9ec8dee8216a8349cea66))
+
 ### [0.0.12](https://github.com/Bankole2000/service-reponse-formatter/compare/v0.0.11...v0.0.12) (2024-05-06)
 
 
