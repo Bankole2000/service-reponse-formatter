@@ -60,5 +60,9 @@
     "**/*.ts": [
       "eslint --fix"
     ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bankole2000/service-reponse-formatter"
   }
 }

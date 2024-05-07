@@ -20,8 +20,8 @@ A Collection of utility functions to quickly scaffold and standardize server-sid
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="./http.png" alt="Logo" width="100" height="100">
+  <a href="https://github.com/Bankole2000/service-reponse-formatter">
+    <img src="./http.png" alt="HTTP Icon" width="100" height="100">
   </a>
 
   <h3 align="center">Service Response - YAHTTPRF</h3>
@@ -41,12 +41,13 @@ A Collection of utility functions to quickly scaffold and standardize server-sid
     <li>
       <a href="#Usage">Usage</a>
       <ul>
-        <li><a href="#generating-serviceresponse">Generating `ServiceResponse`</a></li>
-        <li><a href="#generating-tstatus">Generating `TStatus`</a></li>
+        <li><a href="#generating-serviceresponse">Generating <kbd>ServiceResponse</kbd></a></li>
+        <li><a href="#generating-tstatus">Generating <kbd>TStatus</kbd></a></li>
       </ul>
     </li>
     <li>
       <a href="#list-of-status-codes-types--generator-fxns">Status Codes List</a>
+      <a href="#other-utilities">Other Utilities</a>
     </li>
     <!-- <li>
       <a href="#getting-started">Getting Started</a>
@@ -72,7 +73,7 @@ Meant to be installed on a __nodejs express__ server with either JavaScript or T
 npm install @neoncoder/service-response
 ```
 
-The package exposes types, interfaces, and functions to help standardize and easily scaffold function returns and json http responses:
+The package exposes types, interfaces, and functions to help standardize and easily scaffold json http responses and function returns
 
 `ServiceResponse` - interface for http responses
 
@@ -241,25 +242,98 @@ app.get('/user/:id', async (req: Request, res: Response) => {
 
 ## List of Status Codes, Types & Generator Fxns
 
-| Status Code | StatusType | Generate `ServiceResponse` | Generate `TStatus`
-| ------------|--------------| -------------------------| ---------
-| 200 | `OK` | `OK({})` \|\| `Rez.OK({})` | `statusMap.get(200)!({})`
-| 201 | `Created` | `Created({})` \|\| `Rez.Created({})` | `statusMap.get(201)!({})`
-| 204 | `NoContent` | `NoContent({})` \|\| `Rez.NoContent({})` | `statusMap.get(204)!({})`
-| 400 | `BadRequest` | `BadRequest({})` \|\| `Rez.BadRequest({})` | `statusMap.get(400)!({})`
-| 401 | `Unauthorized` | `Unauthorized({})` \|\| `Rez.Unauthorized({})` | `statusMap.get(401)!({})`
-| 403 | `Forbidden` | `Forbidden({})` \|\| `Rez.Forbidden({})` | `statusMap.get(403)!({})`
-| 404 | `NotFound` | `NotFound({})` \|\| `Rez.NotFound({})` | `statusMap.get(404)!({})`
-| 405 | `MethodNotAllowed` | `MethodNotAllowed({})` \|\| `Rez.MethodNotAllowed({})` | `statusMap.get(405)!({})`
-| 408 | `TimeoutError` | `TimeoutError({})` \|\| `Rez.TimeoutError({})` | `statusMap.get(408)!({})`
-| 415 | `UnsupportedMediaType` | `UnsupportedMediaType({})` \|\| `Rez.UnsupportedMediaType({})` | `statusMap.get(415)!({})`
-| 417 | `ExpectationFailed` | `ExpectationFailed({})` \|\| `Rez.ExpectationFailed({})` | `statusMap.get(417)!({})`
-| 422 | `UnprocessableEntity` | `UnprocessableEntity({})` \|\| `Rez.UnprocessableEntity({})` | `statusMap.get(422)!({})`
-| 429 | `TooManyRequests` | `TooManyRequests({})` \|\| `Rez.TooManyRequests({})` | `statusMap.get(429)!({})`
-| 500 | `InternalServerError` | `InternalServerError({})` \|\| `Rez.InternalServerError({})` | `statusMap.get(500)!({})`
-| 503 | `ServiceUnavailable` | `ServiceUnavailable({})` \|\| `Rez.ServiceUnavailable({})` | `statusMap.get(503)!({})`
-| 504 | `GatewayTimeout` | `GatewayTimeout({})` \|\| `Rez.GatewayTimeout({})` | `statusMap.get(504)!({})`
+| Status Code | StatusType             | Generate `ServiceResponse`                                     | Generate `TStatus`        |
+| ----------- | ---------------------- | -------------------------------------------------------------- | ------------------------- |
+| 200         | `OK`                   | `OK({})` \|\| `Rez.OK({})`                                     | `statusMap.get(200)!({})` |
+| 201         | `Created`              | `Created({})` \|\| `Rez.Created({})`                           | `statusMap.get(201)!({})` |
+| 204         | `NoContent`            | `NoContent({})` \|\| `Rez.NoContent({})`                       | `statusMap.get(204)!({})` |
+| 400         | `BadRequest`           | `BadRequest({})` \|\| `Rez.BadRequest({})`                     | `statusMap.get(400)!({})` |
+| 401         | `Unauthorized`         | `Unauthorized({})` \|\| `Rez.Unauthorized({})`                 | `statusMap.get(401)!({})` |
+| 403         | `Forbidden`            | `Forbidden({})` \|\| `Rez.Forbidden({})`                       | `statusMap.get(403)!({})` |
+| 404         | `NotFound`             | `NotFound({})` \|\| `Rez.NotFound({})`                         | `statusMap.get(404)!({})` |
+| 405         | `MethodNotAllowed`     | `MethodNotAllowed({})` \|\| `Rez.MethodNotAllowed({})`         | `statusMap.get(405)!({})` |
+| 408         | `TimeoutError`         | `TimeoutError({})` \|\| `Rez.TimeoutError({})`                 | `statusMap.get(408)!({})` |
+| 415         | `UnsupportedMediaType` | `UnsupportedMediaType({})` \|\| `Rez.UnsupportedMediaType({})` | `statusMap.get(415)!({})` |
+| 417         | `ExpectationFailed`    | `ExpectationFailed({})` \|\| `Rez.ExpectationFailed({})`       | `statusMap.get(417)!({})` |
+| 422         | `UnprocessableEntity`  | `UnprocessableEntity({})` \|\| `Rez.UnprocessableEntity({})`   | `statusMap.get(422)!({})` |
+| 429         | `TooManyRequests`      | `TooManyRequests({})` \|\| `Rez.TooManyRequests({})`           | `statusMap.get(429)!({})` |
+| 500         | `InternalServerError`  | `InternalServerError({})` \|\| `Rez.InternalServerError({})`   | `statusMap.get(500)!({})` |
+| 503         | `ServiceUnavailable`   | `ServiceUnavailable({})` \|\| `Rez.ServiceUnavailable({})`     | `statusMap.get(503)!({})` |
+| 504         | `GatewayTimeout`       | `GatewayTimeout({})` \|\| `Rez.GatewayTimeout({})`             | `statusMap.get(504)!({})` |
 
+## Other Utilities
+
+The package also provides an `IDataAccess` interface for easy implementation of the `TStatus` type
+
+```ts
+interface IDataAccess {
+  result: TStatus | undefined
+}
+```
+An example usecase could be ensuring that a DBAL class returns data in a consistent shape. In the example below a class is used to manage a resource called `Resource` (could be a User, or Item, or Post etc)
+
+```ts
+// Data Object Class file
+import {IDataAccess, TStatus, statusMap} from '@neoncoder/service-response'
+import { PrismaClient, User, UserCreateInput PrismaClientValidationError, PrismaClientKnownRequestError } from '@prisma/client'
+
+class UserDBALClass implements IDataAccess {
+
+  user: User | undefined
+  result: TSatus | undefined
+  prisma: PrismaClient
+
+  constructor(){
+    this.prisma = new PrismaClient()
+  }
+
+  async create(data: UserCreateInput){
+    try{
+      const newUser = await prisma.user.create({data})
+      this.result = statusMap.get(201)!({data: newUser})
+      this.user = newUser
+    } catch (err){
+      this.formatError(err)
+    } finally {
+      return this
+    }
+  }
+
+  async update(id: string, data: UserUpdateInput){
+    try{
+      const updatedUser = await prisma.user.update({where: {id}, data})
+      this.result = statusMap.get(201)!({data: updatedUser})
+    } catch (err){
+      this.formatError(err)
+    } finally {
+      return this
+    }
+  }
+
+  formatError(error: unknown, msg = 'An error occurred') {
+    const message = error.message ?? msg
+    if(
+        err instanceof PrismaClientValidationError 
+        ||err instanceof PrismaClientKnownRequestError
+      ) {
+        return this.result = statusMap.get(400)!({error, message});
+      }
+      this.result = statusMap.get(500)!({error, message})
+  }
+}
+
+// In Some other file
+import {Request, Response} from 'express';
+app.post('/users', async (req: Request, res: Response) => {
+  const {name, gender} = req.body
+  const userA = new UserDBALClass()
+  const {result} = await userA.create({name}).update(userA.user?.id, {gender})
+  const sr: ServiceResponse = result 
+    ? Rez[result.statusType]({...result})
+    : Rez.InternalServerError({}) 
+  return res.status(sr.statusCode).send(sr)
+});
+```
 
 <!-- * [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
 * [Img Shields](https://shields.io)
