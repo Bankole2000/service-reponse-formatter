@@ -37,6 +37,24 @@
       "type": "test",
       "hidden": false,
       "section": "✅ Testing"
+    },
+    {
+      "type": "build",
+      "hidden": false,
+      "section": "🚧 Build"
+    },
+    {
+      "type": "revert",
+      "hidden": false,
+      "section": "🔁 Revert"
+    },
+    {
+      "type": "ci",
+      "hidden": false,
+      "section": "👷‍♂️ Continuous Integration"
     }
-  ]
+  ],
+  "commitUrlFormat": "{{host}}/{{owner}}/{{repository}}/commits/{{hash}}",
+  "compareUrlFormat": "{{host}}/{{owner}}/{{repository}}/compare/{{previousTag}}...{{currentTag}}",
+  "issueUrlFormat": "{{host}}/{{owner}}/{{repository}}/issues/{{id}}"
 }

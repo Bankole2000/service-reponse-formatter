@@ -12,8 +12,8 @@ declare enum StatusType {
     MethodNotAllowed = "MethodNotAllowed",
     ExpectationFailed = "ExpectationFailed",
     InternalServerError = "InternalServerError",
-    UnProcessableEntity = "UnProcessableEntity",
-    UnSupportedMediaType = "UnSupportedMediaType",
+    UnprocessableEntity = "UnprocessableEntity",
+    UnsupportedMediaType = "UnsupportedMediaType",
     ServiceUnavailable = "ServiceUnavailable",
     GatewayTimeout = "GatewayTimeout"
 }
@@ -34,20 +34,25 @@ type TStatus = {
     code: TStatusCode;
     message: string;
     fix?: string;
+    data?: any;
+    error?: any;
+    statusType: TStatusType;
 };
-interface TFuncResult {
-    data: any | null | undefined;
-    error?: any | null | undefined;
-    status: TStatus;
-}
 interface IDataAccess {
-    result: TFuncResult | undefined;
+    result: TStatus | undefined;
 }
 declare const httpStatus: {
     [key in StatusType]: TStatus;
 };
+type TFuncResultData = {
+    message?: string | undefined;
+    data?: any | undefined;
+    error?: any | null | undefined;
+    fix?: string | undefined;
+};
+declare const statusMap: Map<TStatusCode, (FuncResultData: TFuncResultData) => TStatus>;
 type TResponseFormatter = (ResponseData: TResponseData) => ServiceResponse;
 declare let Rez: {
     [key in StatusType | string]: TResponseFormatter;
 };
-export { Rez, httpStatus as statuses, StatusType, TStatusType, TFuncResult, TStatus, TResponseData, IDataAccess, TResponseFormatter };
+export { Rez, httpStatus as statuses, StatusType, TStatusType, TStatus, TResponseData, IDataAccess, TResponseFormatter, statusMap };
